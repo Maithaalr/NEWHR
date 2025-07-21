@@ -294,7 +294,7 @@ if uploaded_file:
             # توزيع الجنس للمواطنين فقط
             with st.expander("توزيع الجنس للمواطنين"):
                 if 'الجنسية' in df.columns and 'الجنس' in df.columns:
-                    citizen_df = df[df['الجنسية'] == 'إماراتية']
+                    citizen_df = df[df['الجنسية'] == 'Emirati']
                     gender_counts = citizen_df['الجنس'].value_counts().reset_index()
                     gender_counts.columns = ['الجنس', 'العدد']
                     gender_counts['النسبة'] = round((gender_counts['العدد'] / gender_counts['العدد'].sum()) * 100, 1)
