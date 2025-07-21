@@ -290,6 +290,29 @@ if uploaded_file:
 
                 st.plotly_chart(fig_edu_pie, use_container_width=True)
 
+
+            # توزيع الجنس للمواطنين فقط
+            with st.expander("توزيع الجنس للمواطنين"):
+                if 'الجنسية' in df.columns and 'الجنس' in df.columns:
+                    citizen_df = df[df['الجنسية'] == 'إماراتية']
+                    gender_counts = citizen_df['الجنس'].value_counts().reset_index()
+                    gender_counts.columns = ['الجنس', 'العدد']
+                    gender_counts['النسبة'] = round((gender_counts['العدد'] / gender_counts['العدد'].sum()) * 100, 1)
+                    gender_counts['التسمية'] = gender_counts.apply(lambda row: f"{row['الجنس']} | {row['العدد']} ({row['النسبة']}%)", axis=1)
+
+                    fig_citizen_gender = px.pie(
+                        gender_counts,
+                        names='الجنس',
+                        values='العدد',
+                        hole=0.3,
+                        color_discrete_sequence=px.colors.qualitative.Set3
+                    )
+                    fig_citizen_gender.update_traces(text=gender_counts['التسمية'], textinfo='text')
+                    fig_citizen_gender.update_layout(title='توزيع المواطنين حسب الجنس', title_x=0.5)
+
+                    st.plotly_chart(fig_citizen_gender, use_container_width=True)
+
+
     # ---------------- Tab 3 ---------------- #
     with tab3:
         st.markdown("###  تحليل البيانات المفقودة")
